@@ -3,6 +3,7 @@ from game import (
     provide_feedback,
     track_guess,
     ask_to_play_again,
+    get_user_guess,
 )
 
 
@@ -46,3 +47,39 @@ def test_ask_to_play_again(monkeypatch):
     inputs = iter(["invalid", "n"])
     monkeypatch.setattr("builtins.input", lambda _: next(inputs))
     assert ask_to_play_again() is False
+
+
+def test_get_user_guess(monkeypatch, capsys):
+    min_range = 1
+    max_range = 100
+
+    # Test valid input
+    monkeypatch.setattr("builtins.input", lambda _: "50")
+    assert get_user_guess(min_range, max_range) == 50
+
+    # Test non-integer input then valid input
+    inputs = iter(["abc", "25"])
+    monkeypatch.setattr("builtins.input", lambda _: next(inputs))
+    assert get_user_guess(min_range, max_range) == 25
+    captured = capsys.readouterr()
+    assert "Invalid input. Please enter a valid integer." in captured.out
+
+    # Test input below min_range then valid input
+    inputs = iter(["0", "1"])
+    monkeypatch.setattr("builtins.input", lambda _: next(inputs))
+    assert get_user_guess(min_range, max_range) == 1
+    captured = capsys.readouterr()
+    assert (
+        f"Your guess is out of range. Please enter a number between {min_range} and {max_range}."
+        in captured.out
+    )
+
+    # Test input above max_range then valid input
+    inputs = iter(["101", "100"])
+    monkeypatch.setattr("builtins.input", lambda _: next(inputs))
+    assert get_user_guess(min_range, max_range) == 100
+    captured = capsys.readouterr()
+    assert (
+        f"Your guess is out of range. Please enter a number between {min_range} and {max_range}."
+        in captured.out
+    )
