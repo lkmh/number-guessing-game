@@ -14,16 +14,27 @@ def generate_secret_number(min_range: int, max_range: int) -> int:
     return random.randint(min_range, max_range)
 
 
-def get_user_guess() -> int:
+def get_user_guess(min_range: int, max_range: int) -> int:
     """Prompts the user to enter their guess and returns it as an integer.
+
+    Args:
+        min_range: The minimum allowed value for the guess.
+        max_range: The maximum allowed value for the guess.
 
     Returns:
         The user's guess as an integer.
     """
     while True:
         try:
-            guess = int(input("Enter your guess: "))
-            return guess
+            guess = int(
+                input(f"Enter your guess (between {min_range} and {max_range}): ")
+            )
+            if min_range <= guess <= max_range:
+                return guess
+            else:
+                print(
+                    f"Your guess is out of range. Please enter a number between {min_range} and {max_range}."
+                )
         except ValueError:
             print("Invalid input. Please enter a valid integer.")
 
@@ -87,7 +98,7 @@ def play_game():
         print(f"I'm thinking of a number between {min_range} and {max_range}.")
 
         while not guessed_correctly:
-            guess = get_user_guess()
+            guess = get_user_guess(min_range, max_range)
             guesses = track_guess(guesses)
             feedback = provide_feedback(guess, secret_number)
             print(feedback)
