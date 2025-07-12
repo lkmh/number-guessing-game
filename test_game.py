@@ -1,4 +1,9 @@
-from game import generate_secret_number, provide_feedback, track_guess
+from game import (
+    generate_secret_number,
+    provide_feedback,
+    track_guess,
+    ask_to_play_again,
+)
 
 
 def test_generate_secret_number():
@@ -21,3 +26,23 @@ def test_provide_feedback():
 def test_track_guess():
     assert track_guess(0) == 1
     assert track_guess(5) == 6
+
+
+def test_ask_to_play_again(monkeypatch):
+    # Test 'yes' response
+    monkeypatch.setattr("builtins.input", lambda _: "yes")
+    assert ask_to_play_again() is True
+
+    # Test 'no' response
+    monkeypatch.setattr("builtins.input", lambda _: "no")
+    assert ask_to_play_again() is False
+
+    # Test invalid input then 'yes'
+    inputs = iter(["invalid", "y"])
+    monkeypatch.setattr("builtins.input", lambda _: next(inputs))
+    assert ask_to_play_again() is True
+
+    # Test invalid input then 'no'
+    inputs = iter(["invalid", "n"])
+    monkeypatch.setattr("builtins.input", lambda _: next(inputs))
+    assert ask_to_play_again() is False
