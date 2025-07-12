@@ -1,21 +1,36 @@
-This PR implements the core game logic for the Number Guessing Game and sets up the initial development environment.
+This PR implements robust input validation and error handling for the Number Guessing Game.
 
 **Summary:**
-This PR introduces the fundamental game mechanics, including random number generation, user input handling, feedback (too high/too low/correct), and guess tracking. It also sets up the `requirements.txt` and updates `GEMINI.md` with new guidelines.
+This PR modifies the `get_user_guess` function to validate user input, ensuring it's an integer within the specified range. It also provides informative error messages for invalid inputs.
 
 **Motivation:**
-This is the first major feature implementation, addressing the core functionality outlined in the PRD and establishing best practices for future development.
+This addresses the user story related to input validation and error handling, making the game more robust and user-friendly by preventing crashes due to invalid input and guiding the user to provide correct input.
 
 **Detailed Changes:**
-- `game.py`: Contains the `generate_secret_number`, `get_user_guess`, `provide_feedback`, `track_guess`, and `play_game` functions.
-- `test_game.py`: Unit tests for `generate_secret_number`, `provide_feedback`, and `track_guess`.
-- `requirements.txt`: Lists `ruff` and `pytest` as project dependencies.
-- `GEMINI.md`: Updated to include guidelines for `requirements.txt` management and explicit ruff linting instructions.
-- `plan.md`: Initial high-level development plan.
+- `game.py`: The `get_user_guess` function was modified to:
+    - Accept `min_range` and `max_range` as arguments.
+    - Use a `try-except` block to catch `ValueError` for non-integer inputs.
+    - Check if the guessed number is within the `min_range` and `max_range`.
+    - Provide specific error messages for invalid integer input and out-of-range guesses.
+- `test_game.py`: A new test case `test_get_user_guess` was added to cover:
+    - Valid integer input.
+    - Non-integer input followed by valid input.
+    - Input below `min_range` followed by valid input.
+    - Input above `max_range` followed by valid input.
 
 **Testing Details:**
-- Unit tests in `test_game.py` cover the core functions.
-- Local checks (`ruff check .`, `ruff format .`, `pytest`) were run and passed successfully using `python3.12 -m pytest` to address environment-specific issues.
+- Unit tests in `test_game.py` cover the updated `get_user_guess` function, including various valid and invalid input scenarios.
+- **What is Tested:**
+    - `get_user_guess`: Correctly handles integer input, non-integer input, and inputs outside the defined range.
+    - `generate_secret_number`, `provide_feedback`, `track_guess`, `ask_to_play_again`: Existing functionality remains intact and passes all tests.
+- **Edge Cases Considered:**
+    - Entering non-numeric characters.
+    - Entering numbers below the minimum allowed range.
+    - Entering numbers above the maximum allowed range.
+    - Entering valid numbers after initial invalid attempts.
+- **What is NOT Tested:**
+    - Integration with command-line argument parsing for `min_range` and `max_range` (this will be covered in a separate issue).
+    - Comprehensive error handling for unexpected system-level input issues (e.g., I/O errors, although `try-except` for `ValueError` provides basic robustness).
 
 **High-Level Plan:**
 ## High-Level Plan: Number Guessing Game Development

@@ -203,10 +203,13 @@ The planning will be a guide to implmenation, to save implementation and debuggi
             *   A summary of the modules and files affected.
             *   A description of the new code.
             *   A description of changes to existing code.
+            *   Focus on "Why" over "What" (Especially in 'Detailed Changes'): While the existing description outlines what was changed, it could better explain why those changes were necessary or the impact of those changes.
+            *   Clarify inputs, outputs, and exceptions:
+            *   Clarifying the exact input data the functions needs, and how what exceptions were created or handed to prevent problems
 
-            * Provide the high level planning document
             *   **Testing Details:**
             *   An explanation of how the changes were tested (e.g., "Added unit tests, manually tested the UI").
+            *   We want to have the tests to check data, input, model, schema and ensure that it can be easy for a 3rd party to look at it
             *   Specific instructions for reviewers on how to test the changes, including environment configurations etc.
             *   A link to documentation.
         *   **Known Issues/Limitations:** If there are any known issues or limitations with the changes, clearly document them.
