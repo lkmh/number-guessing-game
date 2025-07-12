@@ -240,6 +240,10 @@ The planning will be a guide to implmenation, to save implementation and debuggi
 
     *   Consider creating a checklist in the PR description for reviewers to use (e.g., using Markdown checklists).
     *   For large changes, consider breaking them into smaller, more focused pull requests.
+    *   **For long PR descriptions:** If your PR body is very long or complex, consider writing it in a separate file (e.g., `pr_body.md`) and then using the `--body-file` flag:
+        ```bash
+        gh pr create --title "Your PR Title" --body-file pr_body.md
+        ```
 
 6.  **Review the Local testing with a Senior Dev:** Have the senior dev review the Local runs, which will add an extra layer before submission.
 
