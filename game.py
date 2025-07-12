@@ -1,3 +1,4 @@
+import argparse
 import random
 
 
@@ -85,11 +86,8 @@ def ask_to_play_again() -> bool:
             print("Invalid input. Please enter 'yes' or 'no'.")
 
 
-def play_game():
+def play_game(min_range: int, max_range: int):
     """Main function to play the number guessing game."""
-    min_range = 1
-    max_range = 100
-
     while True:
         secret_number = generate_secret_number(min_range, max_range)
         guesses = 0
@@ -111,5 +109,25 @@ def play_game():
             break
 
 
+def parse_arguments():
+    """Parses command-line arguments for min_range and max_range."""
+    parser = argparse.ArgumentParser(description="Play the Number Guessing Game.")
+    parser.add_argument(
+        "--min",
+        type=int,
+        default=1,
+        help="Minimum number for the guessing range (default: 1)",
+    )
+    parser.add_argument(
+        "--max",
+        type=int,
+        default=100,
+        help="Maximum number for the guessing range (default: 100)",
+    )
+    args = parser.parse_args()
+    return args.min, args.max
+
+
 if __name__ == "__main__":
-    play_game()
+    min_range, max_range = parse_arguments()
+    play_game(min_range, max_range)

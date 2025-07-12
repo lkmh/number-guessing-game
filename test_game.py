@@ -4,7 +4,9 @@ from game import (
     track_guess,
     ask_to_play_again,
     get_user_guess,
+    parse_arguments,
 )
+import sys
 
 
 def test_generate_secret_number():
@@ -83,3 +85,17 @@ def test_get_user_guess(monkeypatch, capsys):
         f"Your guess is out of range. Please enter a number between {min_range} and {max_range}."
         in captured.out
     )
+
+
+def test_parse_arguments(monkeypatch):
+    # Test default arguments
+    monkeypatch.setattr(sys, "argv", ["game.py"])
+    min_val, max_val = parse_arguments()
+    assert min_val == 1
+    assert max_val == 100
+
+    # Test custom arguments
+    monkeypatch.setattr(sys, "argv", ["game.py", "--min", "10", "--max", "50"])
+    min_val, max_val = parse_arguments()
+    assert min_val == 10
+    assert max_val == 50
