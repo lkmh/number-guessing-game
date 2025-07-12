@@ -58,25 +58,46 @@ def track_guess(current_guesses: int) -> int:
     return current_guesses + 1
 
 
+def ask_to_play_again() -> bool:
+    """Asks the user if they want to play again.
+
+    Returns:
+        True if the user wants to play again, False otherwise.
+    """
+    while True:
+        choice = input("Do you want to play again? (yes/no): ").lower()
+        if choice in ["yes", "y"]:
+            return True
+        elif choice in ["no", "n"]:
+            return False
+        else:
+            print("Invalid input. Please enter 'yes' or 'no'.")
+
+
 def play_game():
     """Main function to play the number guessing game."""
     min_range = 1
     max_range = 100
-    secret_number = generate_secret_number(min_range, max_range)
-    guesses = 0
-    guessed_correctly = False
 
-    print(f"I'm thinking of a number between {min_range} and {max_range}.")
+    while True:
+        secret_number = generate_secret_number(min_range, max_range)
+        guesses = 0
+        guessed_correctly = False
 
-    while not guessed_correctly:
-        guess = get_user_guess()
-        guesses = track_guess(guesses)
-        feedback = provide_feedback(guess, secret_number)
-        print(feedback)
+        print(f"I'm thinking of a number between {min_range} and {max_range}.")
 
-        if feedback == "You guessed it!":
-            guessed_correctly = True
-            print(f"It took you {guesses} guesses to win!")
+        while not guessed_correctly:
+            guess = get_user_guess()
+            guesses = track_guess(guesses)
+            feedback = provide_feedback(guess, secret_number)
+            print(feedback)
+
+            if feedback == "You guessed it!":
+                guessed_correctly = True
+                print(f"It took you {guesses} guesses to win!")
+
+        if not ask_to_play_again():
+            break
 
 
 if __name__ == "__main__":
